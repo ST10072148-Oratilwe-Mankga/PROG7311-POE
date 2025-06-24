@@ -1,0 +1,136 @@
+@model List<AgriEnergyConnect.Models.Farmer>
+@{
+    ViewData["Title"] = "Employee Dashboard";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Farmer Management (@Model.Count Active Farmers)</h5>
+                <a href="@Url.Action("Create", "Farmers")" class="btn btn-light btn-sm">Add New Farmer</a>
+            </div>
+            <div class="card-body">
+                @if (Model.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Farmer Name</th>
+                                    <th>Email</th>
+                                    <th>Location</th>
+                                    <th>Farm Type</th>
+                                    <th>Products</th>
+                                    <th>Registered</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var farmer in Model.OrderBy(f => f.Name))
+                                {
+                                    <tr>
+                                        <td><strong>@farmer.Name</strong></td>
+                                        <td>@farmer.Email</td>
+                                        <td>@farmer.FarmLocation</td>
+                                        <td><span class="badge bg-info">@farmer.FarmType</span></td>
+                                        <td>
+                                            <span class="badge bg-primary">@farmer.Products.Count products</span>
+                                        </td>
+                                        <td>@farmer.RegistrationDate.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            @if (farmer.IsActive)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Details", "Farmers", new { id = farmer.Id })" class="btn btn-sm btn-outline-info">View</a>
+                                            <a href="@Url.Action("Edit", "Farmers", new { id = farmer.Id })" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <p class="text-muted">No farmers registered yet.</p>
+                        <a href="@Url.Action("Create", "Farmers")" class="btn btn-success">Add First Farmer</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h6 class="mb-0">Quick Statistics</h6>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h4 class="text-success">@Model.Count</h4>
+                        <small class="text-muted">Total Farmers</small>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="text-primary">@Model.Sum(f => f.Products.Count)</h4>
+                        <small class="text-muted">Total Products</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h4 class="text-info">@Model.Count(f => f.IsActive)</h4>
+                        <small class="text-muted">Active Farmers</small>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="text-warning">@Model.SelectMany(f => f.Products).Count(p => p.IsAvailable)</h4>
+                        <small class="text-muted">Available Products</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h6 class="mb-0">Quick Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("Create", "Farmers")" class="btn btn-success">➕ Add New Farmer</a>
+                    <a href="@Url.Action("Index", "Products")" class="btn btn-primary">📋 View All Products</a>
+                    <a href="@Url.Action("Index", "Farmers")" class="btn btn-info">👥 Manage Farmers</a>
+                    <a href="@Url.Action("Logout", "Home")" class="btn btn-outline-secondary">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h6>📊 Product Categories Summary:</h6>
+            @{
+                var categories = Model.SelectMany(f => f.Products).GroupBy(p => p.Category).OrderByDescending(g => g.Count());
+            }
+            @foreach (var category in categories.Take(5))
+            {
+                <span class="badge bg-secondary me-2">@category.Key: @category.Count()</span>
+            }
+        </div>
+    </div>
+</div> 

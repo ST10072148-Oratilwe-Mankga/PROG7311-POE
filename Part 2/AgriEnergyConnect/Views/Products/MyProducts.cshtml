@@ -1,0 +1,107 @@
+@model List<AgriEnergyConnect.Models.Product>
+@{
+    ViewData["Title"] = "My Products";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">My Products (@Model.Count)</h4>
+                <a href="@Url.Action("Create", "Products")" class="btn btn-light">Add New Product</a>
+            </div>
+            <div class="card-body">
+                @if (Model.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Production Date</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model.OrderByDescending(p => p.CreatedDate))
+                                {
+                                    <tr>
+                                        <td><strong>@product.Name</strong></td>
+                                        <td><span class="badge bg-primary">@product.Category</span></td>
+                                        <td>@product.ProductionDate.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            @if (product.Quantity.HasValue)
+                                            {
+                                                @product.Quantity @product.Unit
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Not specified</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (product.Price.HasValue)
+                                            {
+                                                @product.Price.Value.ToString("C")
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Not specified</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (product.IsAvailable)
+                                            {
+                                                <span class="badge bg-success">Available</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Unavailable</span>
+                                            }
+                                        </td>
+                                        <td>@product.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Products", new { id = product.Id })" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="btn btn-sm btn-outline-info">View</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <p class="text-muted">No products added yet.</p>
+                        <a href="@Url.Action("Create", "Products")" class="btn btn-success">Add Your First Product</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h6>Quick Actions:</h6>
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="@Url.Action("Create", "Products")" class="btn btn-success w-100 mb-2">➕ Add Product</a>
+                </div>
+                <div class="col-md-3">
+                    <a href="@Url.Action("FarmerDashboard", "Home")" class="btn btn-outline-success w-100 mb-2">🏠 Dashboard</a>
+                </div>
+                <div class="col-md-3">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary w-100 mb-2">🏠 Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

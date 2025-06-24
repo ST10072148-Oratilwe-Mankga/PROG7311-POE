@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Login to Agri-Energy Connect</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Login" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Login</button>
+                    </div>
+                </form>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger mt-3">
+                        <ul class="mb-0">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <div class="mt-4">
+                    <h6>Demo Credentials:</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Farmer:</strong><br>
+                            Username: farmer1<br>
+                            Password: password123
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Employee:</strong><br>
+                            Username: employee1<br>
+                            Password: password123
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

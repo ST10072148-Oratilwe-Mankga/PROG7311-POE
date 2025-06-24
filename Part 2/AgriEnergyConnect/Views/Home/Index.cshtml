@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4 text-success">🌱 Welcome to Agri-Energy Connect</h1>
+    <p class="lead">Bridging Sustainable Agriculture with Green Energy Solutions</p>
+    <hr class="my-4">
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-success">For Farmers</h5>
+                    <p class="card-text">Connect with green energy experts, share sustainable farming practices, and access renewable energy solutions for your farm.</p>
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("Login", "Home")" class="btn btn-success">Farmer Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-success">For Employees</h5>
+                    <p class="card-text">Manage farmer profiles, view product listings, and facilitate connections between agricultural and energy sectors.</p>
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("Login", "Home")" class="btn btn-success">Employee Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h6>Demo Credentials:</h6>
+                <p class="mb-1"><strong>Farmer:</strong> Username: farmer1, Password: password123</p>
+                <p class="mb-1"><strong>Employee:</strong> Username: employee1, Password: password123</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="text-center">
+                <h4>🌾 Sustainable Farming</h4>
+                <p>Access best practices and innovative techniques for sustainable agriculture.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <h4>⚡ Green Energy</h4>
+                <p>Discover renewable energy solutions tailored for agricultural needs.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <h4>🤝 Collaboration</h4>
+                <p>Connect with experts and fellow farmers to share knowledge and resources.</p>
+            </div>
+        </div>
+    </div>
+</div>
